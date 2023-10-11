@@ -25,15 +25,15 @@ class UsersSeeder extends Seeder
         ]);
 
         //Vendor
-        DB::table('users')->insert([
-            'name' => 'Vendor',
-            'username' => 'vendor',
-            'role' => 'vendor',
-            'status' => 'active',
-            'image' => 'vendor.jpg',
-            'password' => bcrypt('vendor'),
-            'email' => 'vendor@example.com',
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Vendor',
+        //     'username' => 'vendor',
+        //     'role' => 'vendor',
+        //     'status' => 'active',
+        //     'image' => 'vendor.jpg',
+        //     'password' => bcrypt('vendor'),
+        //     'email' => 'vendor@example.com',
+        // ]);
 
         // User
         DB::table('users')->insert([

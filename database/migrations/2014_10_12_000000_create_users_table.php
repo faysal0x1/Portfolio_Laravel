@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
 
-            $table->enum('role', ['admin', 'vendor', 'user'])->default('user');
+            $table->enum('role', ['admin', 'user'])->default('user');
 
             $table->enum('status', ['active', 'inactive', ])->default('active');
 
             $table->string('email')->unique();
+
             $table->timestamp('email_verified_at')->nullable();
 
             $table->string('password');
