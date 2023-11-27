@@ -5,6 +5,8 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
 	<!--favicon-->
 	<link rel="icon" href="{{ asset('adminbackend/assets/images/favicon-32x32.png') }}" type="image/png" />
 
@@ -98,8 +100,18 @@
 	<script src="{{ asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
 	<script>
 		$(document).ready(function() {
-			$('#example2').DataTable();
-		  } );
+			$('#example').DataTable();
+		  } )
+		  
+		$(document).ready(function() {
+			var table = $('#example2').DataTable( {
+				lengthChange: false,
+				buttons: [ 'copy', 'excel', 'pdf', 'print']
+			} );
+		 
+			table.buttons().container()
+				.appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+		} );
 	</script>
 	<!--Datatable-->
 
@@ -136,9 +148,9 @@
 
 	<script src="{{ asset('adminbackend/assets/plugins/input-tags/js/tagsinput.js') }}"></script>
 
-	<script src='https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js'
+	{{-- <script src='https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js'
 		referrerpolicy="origin">
-	</script>
+	</script> --}}
 
 	{{-- <script>
 		tinymce.init({

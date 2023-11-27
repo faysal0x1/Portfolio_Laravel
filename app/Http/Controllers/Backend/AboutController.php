@@ -60,8 +60,6 @@ class AboutController extends Controller
                     ['id' => 1],
                     $data
                 );
-
-
             } else {
 
                 About::updateOrCreate(

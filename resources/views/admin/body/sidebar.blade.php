@@ -26,16 +26,14 @@
                 <div class="menu-title">Single Page</div>
             </a>
             <ul>
-                <li> <a href="{{ route('about.index') }}">
-                        <i class="bx bx-right-arrow-alt"></i>
-                        About Details
-                    </a>
-                </li>
+             
                 <li> <a href="{{ route('about.index') }}"><i class="bx bx-right-arrow-alt"></i>About Details</a>
                 </li>
-                <li> <a href="ecommerce-add-new-products.html"><i class="bx bx-right-arrow-alt"></i>Add New Products</a>
+                <li> <a href="{{ route('skills.index') }}"><i class="bx bx-right-arrow-alt"></i>Skills</a>
                 </li>
-                <li> <a href="ecommerce-orders.html"><i class="bx bx-right-arrow-alt"></i>Orders</a>
+                <li> <a href="{{ route('services.index') }}"><i class="bx bx-right-arrow-alt"></i>Services</a>
+                </li>
+                <li> <a href="{{ route('testimonials.index') }}"><i class="bx bx-right-arrow-alt"></i>Testimonials</a>
                 </li>
             </ul>
         </li>

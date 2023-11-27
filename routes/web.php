@@ -2,12 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\backend\AboutController;
-use App\Http\Controllers\Backend\BrandController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ProcuctController;
-use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Controllers\Backend\VendorProductController;
-use App\Http\Controllers\VendorController;
+use App\Http\Controllers\backend\ServiceController;
+use App\Http\Controllers\backend\SkillController;
+use App\Http\Controllers\backend\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,7 +24,6 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/edit/profile', 'EditProfile')->name('edit.profile');
 });
 
-
 require __DIR__ . '/auth.php';
 
 // Admin All Route
@@ -43,29 +39,36 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('/update/password', [AdminController::class, 'UpdatePassword'])->name('admin.update.password');
 });
 
-
-
-
 // Route::get('/login', [FrontendController::class, 'login'])
 //     ->name('login');
 
-
 Route::middleware(['auth', 'role:user'])->prefix('admin')->group(function () {
 
-   Route::get('/about',[AboutController::class,'index'])
-   ->name('about.index');
+    Route::get('/about', [AboutController::class, 'index'])
+        ->name('about.index');
 
-   Route::get('/about/data',[AboutController::class,'aboutData'])
-   ->name('about.store');
+    Route::get('/about/data', [AboutController::class, 'aboutData'])
+        ->name('about.store');
 
-   Route::post('/about/store', [AboutController::class,'store'])
-    ->name('about.store');
+    Route::post('/about/store', [AboutController::class, 'store'])
+        ->name('about.store');
 
+
+    Route::resource('/skills', SkillController::class);
+
+    Route::get('/skill/list', [SkillController::class, 'skillList'])
+        ->name('skills.list');
+
+    Route::resource('/services', ServiceController::class);
+
+    Route::get('/service/list', [ServiceController::class, 'serviceList'])
+        ->name('services.list');
+
+    Route::resource('/testimonials', TestimonialController::class);
+
+    Route::get('/testimonial/list', [TestimonialController::class, 'testimonialList'])
+        ->name('testimonial.list');
+      
 });
 
-
-
 // Product Controller
-
-
-
