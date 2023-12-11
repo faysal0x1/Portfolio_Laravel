@@ -35,6 +35,10 @@
                 </li>
                 <li> <a href="{{ route('testimonials.index') }}"><i class="bx bx-right-arrow-alt"></i>Testimonials</a>
                 </li>
+                <li> <a href="{{ route('projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects</a>
+                </li>
+                <li> <a href="{{ route('newsletter.index') }}"><i class="bx bx-right-arrow-alt"></i>Newsletter</a>
+                </li>
             </ul>
         </li>
 

@@ -521,7 +521,7 @@
 <!-- ...::: End Testimonial Display Section :::... -->
 
 <!-- ...::: Start Company Logo Display Section :::... -->
-<div class="company-logo-display section-mt-165 ">
+{{-- <div class="company-logo-display section-mt-165 ">
     <div class="company-logo-display-box">
         <div class="container">
             <div class="row">
@@ -587,7 +587,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- ...::: End Company Logo Display Section :::... -->
 
 <!-- ...::: Start Blog Feed Display Section :::... -->

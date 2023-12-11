@@ -118,39 +118,44 @@
 <script type="text/javascript">
     aboutAllData();
     async function aboutAllData() {
-    
     try {
         const res = await axios.get('/admin/about/data');
-        document.getElementById("pdf-upload-form").reset();
-        document.getElementById("title").value = res.data.title;
-        document.getElementById("short_title").value = res.data.short_title;
-        document.getElementById("bio").value = res.data.bio;
-        document.getElementById("description").value = res.data.description;
-        document.getElementById("pdf_file").value = res.data.pdf_file;
 
-alert(res.data.pdf_file);
-const pdfFileName = res.data.pdf_file;
-const pdfUrl = `http://127.0.0.1:8000/${pdfFileName}`;// Replace with the URL of the PDF
+        // Handle the About data
+        const aboutData = res.data.aboutData;
+        document.getElementById("title").value = aboutData.title;
+        document.getElementById("short_title").value = aboutData.short_title;
+        document.getElementById("bio").value = aboutData.bio;
+        document.getElementById("description").value = aboutData.description;
 
-$('#pdf_file').change(function(e) {
-        var file = e.target.files[0];
-        var pdfPreview = document.getElementById('pdfPreview');
+        // Handle the PDF file
+        const pdfFileName = aboutData.pdf_file;
+        const pdfUrl = `http://127.0.0.1:8000/admin/about/data/pdf?filename=${pdfFileName}`;
+        const pdfData = res.data.pdfData;
 
-        if (file) {
-            var objectURL = URL.createObjectURL(pdfUrl);
-            pdfPreview.setAttribute('src', objectURL);
+        // Set the source of the PDF preview element
+        const pdfPreview = document.getElementById('pdfPreview');
+
+        // Check if pdfData is available and non-empty
+        if (pdfData && pdfData.trim() !== '') {
+            // Decode the base64 data
+            const decodedPdfData = atob(pdfData);
+
+            // Create a Blob from the base64 data
+            const blob = new Blob([new Uint8Array(decodedPdfData.split('').map(char => char.charCodeAt(0)))], { type: 'application/pdf' });
+
+            // Set the iframe source to the Blob URL
+            pdfPreview.setAttribute('src', URL.createObjectURL(blob));
         } else {
-            pdfPreview.setAttribute('src', ''); 
+            // If pdfData is not available, set the PDF URL
+            pdfPreview.setAttribute('src', pdfUrl);
         }
-    });
 
-    
-
-    
-    }catch(e) {
+    } catch (e) {
         console.log(e);
     }
 }
+
 
 
     $(document).ready(function() {

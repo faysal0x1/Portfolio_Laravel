@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 <head>
-   
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Lendex - Personal Portfolio Bootstrap Template</title>
@@ -15,7 +15,8 @@
     <!-- CSS
     ============================================ -->
     <!-- Vendor CSS (Contain Bootstrap, Icon Fonts) -->
-    {{-- <!-- <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css" /> --}}
+    {{--
+    <!-- <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css" /> --}}
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/icofont.min.css') }}" /> 
 
@@ -26,47 +27,49 @@
 
     <!-- Style CSS -->
     <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
-    
+
     <!-- Minify Version -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/plugins/plugins.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 </head>
 
 
 
 <body>
 
-   
- 
-
-  
-  <main class="main-wrapper">
-
-
-    @include('frontend.body.header')
-
-
-    <!-- Offcanvas Overlay -->
-    <div class="offcanvas-overlay"></div>
-
-
-    @yield('content')
-
-
-    <!-- ...::: Start Footer Section :::... -->
-    @include('frontend.body.footer')
-    <!-- ...::: End Footer Section :::... -->
-
-    <!-- material-scrolltop button -->
-<button class="material-scrolltop" type="button"></button>
-</main>
 
 
 
 
+    <main class="main-wrapper">
 
-    
+
+        @include('frontend.body.header')
+
+
+        <!-- Offcanvas Overlay -->
+        <div class="offcanvas-overlay"></div>
+
+
+        @yield('content')
+
+
+        <!-- ...::: Start Footer Section :::... -->
+        @include('frontend.body.footer')
+        <!-- ...::: End Footer Section :::... -->
+
+        <!-- material-scrolltop button -->
+        <button class="material-scrolltop" type="button"></button>
+    </main>
+
+
+
+
+
+
 
     <!-- JS Files
     ============================================ -->
@@ -77,8 +80,8 @@
     <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendor/jquery-migrate-3.3.2.min.js"></script> -->
 
-    {{-- <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>  --}}
-    
+    {{-- <script src="assets/js/vendor/bootstrap.bundle.min.js"></script> --}}
+
     <!--Plugins JS-->
     <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
     <script src="assets/js/plugins/jquery.appear.min.js"></script>
@@ -93,7 +96,29 @@
     <!-- Minify Version -->
     <script src="{{ asset('frontend/assets/js/vendor.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/plugins.min.js') }}"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if(Session::has('message'))
+    var type = "{{ Session::get('alert-type','info') }}"
+    switch(type){
+    case 'info':
+    toastr.info(" {{ Session::get('message') }} ");
+    break;
+    
+    case 'success':
+    toastr.success(" {{ Session::get('message') }} ");
+    break;
+    
+    case 'warning':
+    toastr.warning(" {{ Session::get('message') }} ");
+    break;
+    
+    case 'error':
+    toastr.error(" {{ Session::get('message') }} ");
+    break; 
+    }
+    @endif 
+    </script>
     <!--Main JS (Common Activation Codes)-->
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
 </body>

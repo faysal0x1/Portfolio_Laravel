@@ -1,4 +1,8 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <footer class="footer-section section-bg overflow-hidden pos-relative">
+
     <div class="footer-inner-shape-top-left"></div>
     <div class="footer-inner-shape-top-right"></div>
     <div class="footer-section-top section-gap-t-165">
@@ -16,10 +20,13 @@
             <div class="footer-top-wrapper text-center">
                 <div class="row">
                     <div class="col-12">
-                        <form action="#" class="footer-newsletter">
-                            <input type="email" placeholder="demo@example.com">
+
+                        <form id="formPost" class="footer-newsletter">
+                            @csrf
+                            <input type="email" name="email" id="email" placeholder="demo@example.com">
                             <button class="submit-btn" type="submit">Subscribe Now</button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -52,9 +59,12 @@
                     <!-- Start Single Footer Info -->
                     <div class="footer-single-info">
                         <ul class="social-link">
-                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-facebook"></i></a></li>
-                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-dribbble"></i></a></li>
-                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-linkedin"></i></a></li>
+                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-dribbble"></i></a>
+                            </li>
+                            <li><a href="https://www.example.com" target="_blank"><i class="icofont-linkedin"></i></a>
+                            </li>
                         </ul>
                     </div>
                     <!-- Start Single Footer Info -->
@@ -64,10 +74,13 @@
     </div>
     <div class="footer-bottom">
         <div class="container">
-            <div class="row justify-content-center justify-content-md-between align-items-center flex-column-reverse flex-md-row">
+            <div
+                class="row justify-content-center justify-content-md-between align-items-center flex-column-reverse flex-md-row">
                 <div class="col-auto">
                     <div class="footer-copyright">
-                        <p class="copyright-text">&copy; 2021 <a href="index.html">Lendex</a> Made with <i class="icofont-heart"></i> by <a href="https://hasthemes.com/" target="_blank">HasThemes</a> </p>
+                        <p class="copyright-text">&copy; 2021 <a href="index.html">Lendex</a> Made with <i
+                                class="icofont-heart"></i> by <a href="https://hasthemes.com/"
+                                target="_blank">HasThemes</a> </p>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -81,3 +94,33 @@
         </div>
     </div>
 </footer>
+
+
+<script>
+   document.getElementById('formPost').addEventListener('submit', function (event) {
+    event.preventDefault();
+    addNewsLetter();
+});
+
+async function addNewsLetter() {
+    try {
+        const email = document.getElementById('email').value;
+        if (email === '') {
+            return;
+        }
+
+        const res = await axios.post('/admin/newsletter/store', {
+            email
+        });
+
+        if (res.status === 200) {
+            document.getElementById('email').value = '';
+            toastr.success(res.data.message, 'Success');
+        } else {
+            toastr.error(res.data.message, 'Error');
+        }
+    } catch (error) {
+        console.error("Request failed:", error);
+    }
+}
+</script>

@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\backend\AboutController;
+use App\Http\Controllers\backend\ProjectController;
 use App\Http\Controllers\backend\ServiceController;
 use App\Http\Controllers\backend\SkillController;
 use App\Http\Controllers\backend\TestimonialController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,7 +70,20 @@ Route::middleware(['auth', 'role:user'])->prefix('admin')->group(function () {
 
     Route::get('/testimonial/list', [TestimonialController::class, 'testimonialList'])
         ->name('testimonial.list');
+
+    Route::resource('/projects', ProjectController::class);
+
+    Route::get('/project/list', [ProjectController::class, 'projectList'])
+        ->name('project.list');
+
+        Route::get('/newsletter/list',[NewsletterController::class,'index'])->name('newsletter.index');
+
+        Route::get('/newsletter/lists',[NewsletterController::class,'newsletterList'])->name('newsletter.list');
+
       
 });
+
+
+Route::post('/admin/newsletter/store',[NewsletterController::class,'newsletterStore'])->name('store.newsletter');
 
 // Product Controller
