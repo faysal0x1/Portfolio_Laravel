@@ -14,11 +14,12 @@ class ProjectController extends Controller
     public function index()
     {
         $data = Project::all();
-        return view('backend.projects.index',compact('data'));
+        return view('backend.projects.index', compact('data'));
     }
     // Project List Ajax
 
-    public function projectList(){
+    public function projectList()
+    {
         return Project::all();
     }
 
@@ -35,8 +36,44 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'desc' => 'required|string',
+        //     'tags' => 'required|array',
+        // ]);
+
+        try {
+            // Handle image upload
+            $imageName = time() . '.' . $request->image->getClientOriginalExtension();
+            $request->image->move(public_path('upload/projects'), $imageName);
+
+            // Create new project
+            $project = Project::create([
+                'name' => $request->name,
+                'image' => 'upload/projects/' . $imageName,
+                'description' => $request->desc,
+                'tags' => json_encode($request->tags),
+            ]);
+
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Project created successfully',
+                'project' => $project,
+            ], 200);
+
+
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong',
+            ], 500);
+        }
     }
+
+
 
     /**
      * Display the specified resource.
@@ -51,7 +88,7 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Project::where('id', $id)->first();
     }
 
     /**

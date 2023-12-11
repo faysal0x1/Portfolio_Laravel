@@ -54,6 +54,8 @@
 @include('backend.service.update_service')
 
 <script>
+
+    
     $('#tableList').on('click', '.deleteBtn', function () {
     let id = $(this).data('id');
 
@@ -95,26 +97,33 @@
 
 
     // getList();
-async function getList() {
+    async function getList() {
     try {
         let res = await axios.get('/admin/service/list');
-       console.log(res.data.title);
-        
+        console.log(res.data);
+
         let tableList = $('#tableList');
         tableList.empty();
 
-        res.data.forEach(function (item, index) {
-            let serviceList = JSON.parse(item['service_list']);
+        res.data.data.forEach(function (item, index) {
+            let serviceList;
 
+            // Check if service_list is a string representing a JSON array
+            try {
+                serviceList = JSON.parse(item['service_list']);
+            } catch (e) {
+                // If parsing fails, assume it's a plain string
+                serviceList = [item['service_list']];
+            }
 
-                let serviceListHtml = serviceList.map(service => {
-                    return `<li>${service}</li>`;
-                }).join('');
+            let serviceListHtml = serviceList.map(service => {
+                return `<li>${service}</li>`;
+            }).join('');
 
             let row = `<tr>
                             <td>${index + 1}</td>
                             <td>${item['title']}</td>
-                            <td> <ul>${serviceListHtml}</ul></td>
+                            <td>${serviceListHtml}</td>
                             <td>
                                 <button data-id="${item['id']}" class="btn editBtn btn-sm btn-outline-success">Edit</button>
                                 <button data-id="${item['id']}" class="btn deleteBtn btn-sm btn-outline-danger">Delete</button>
@@ -131,7 +140,7 @@ async function getList() {
 
 async function deleteItem(id) {
     try {
-        let res = await axios.delete(`/admin/skills/${id}`, {
+        let res = await axios.delete(`/admin/services/${id}`, {
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}', 
             },

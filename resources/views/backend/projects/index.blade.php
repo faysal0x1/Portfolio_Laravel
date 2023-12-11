@@ -95,7 +95,7 @@
 
 
 
-    // getList();
+    getList();
     async function getList() {
         try {
             let res = await axios.get('/admin/project/list');

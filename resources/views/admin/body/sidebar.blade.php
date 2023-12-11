@@ -38,6 +38,7 @@
                 <li> <a href="{{ route('projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects</a>
                 </li>
                 <li> <a href="{{ route('newsletter.index') }}"><i class="bx bx-right-arrow-alt"></i>Newsletter</a>
+                <li> <a href="{{ route('all.blog') }}"><i class="bx bx-right-arrow-alt"></i>Blogs</a>
                 </li>
             </ul>
         </li>

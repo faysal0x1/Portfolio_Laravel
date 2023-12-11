@@ -23,7 +23,7 @@
                         <label for="example-text-input" class="col-sm-2 col-form-label"> Description
                         </label>
                         <div class="form-group col-sm-10">
-                            <textarea id="mytextarea"  name="desc">Hello, World!</textarea>
+                            <textarea id="mytextarea" name="desc">Hello, World!</textarea>
                         </div>
                     </div>
 
@@ -31,13 +31,13 @@
                         <label for="example-text-input" class="col-sm-2 col-form-label"> Tags
                         </label>
                         <div class="form-group col-sm-10">
-                            <select multiple data-role="tagsinput">
+                            <select id="tags" name="tags" multiple data-role="tagsinput">
                                 <option value="Tech">Tech</option>
                             </select>
                         </div>
                     </div>
 
-    
+
 
                     <div class="row mb-3">
                         <div class="col-sm-3">
@@ -74,45 +74,52 @@
 </div>
 
 <script>
-    async function addSkill(event)
-{
+    document.getElementById('add-form').addEventListener('submit', function (event) {
     event.preventDefault();
+    addSkill();
+});
+
+async function addSkill() {
     try {
         let name = document.getElementById('name').value;
-        let name = document.getElementById('name').value;
+        let image = document.getElementById('image').files[0];
         let desc = document.getElementById('mytextarea').value;
-        
- 
-        // document.getElementById('add-modal-close').click();
+        let tags = document.getElementById('tags').value.split(',');
 
-        
+        // Create FormData to send as multipart/form-data
+        let formData = new FormData();
+        formData.append('name', name);
+        formData.append('image', image);
+        formData.append('desc', desc);
+        formData.append('tags', JSON.stringify(tags));
+
+        // Close the modal (if needed)
         let closeButton = document.getElementById('add-modal-close');
         if (closeButton) {
             closeButton.click();
         }
-        const data = {
-            title: title,
-            rate: rate,
-        };
-         const config = {
+
+        const config = {
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 'Content-Type': 'multipart/form-data',
             },
         };
 
-        const res = await axios.post('/admin/projects', data, config);
+        const res = await axios.post('/admin/projects', formData, config);
         if (res.status === 200) {
             document.getElementById("add-form").reset();
             toastr.success(res.data.message, 'Success');
             await getList();
-        }else{
+        } else {
             toastr.error("Something Went Wrong");
         }
     } catch (error) {
-        console.log(error);
+        toastr.error("Something Went Wrong");
     }
 }
+
+
 
 
     $(document).ready(function() {

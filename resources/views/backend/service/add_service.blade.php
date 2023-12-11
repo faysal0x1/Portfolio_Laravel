@@ -93,7 +93,7 @@
         // var fomdata = new FormData(document.getElementById('add-form'));
         var fomdata = new FormData(document.getElementById('add-form'));
 
-        fomdata.append('title', document.getElementById('title').value);
+        // fomdata.append('title', document.getElementById('title').value);
 
 
         // document.getElementById('add-modal-close').click();

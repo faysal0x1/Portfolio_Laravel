@@ -16,13 +16,18 @@ class ServiceController extends Controller
         return view('backend.service.index');
     }
 
-  
 
 
 
-    public function serviceList(){
+
+    public function serviceList()
+    {
         $serviceList = Service::all();
-        return $serviceList;
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $serviceList
+        ], 200);
     }
 
     /**
@@ -53,14 +58,12 @@ class ServiceController extends Controller
                 'status' => 'success',
                 'message' => "Service Addded Successfully",
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 'fail',
                 'message' => "Something went wrong",
             ], 404);
         }
-
     }
 
     /**
@@ -82,9 +85,34 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $id = $request->input('updateId');
+            $serviceList = $request->input('updateservice_list');
+
+            // Assuming you have a Service model
+            $service = Service::find($id);
+
+            if (!$service) {
+                return response()->json(['status' => 'fail', 'message' => 'Service not found'], 404);
+            }
+
+            $service->title = $request->input('servicesTitleUpdate');
+            $service->service_list = json_encode($serviceList);
+
+            $service->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Service updated successfully',
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -92,6 +120,11 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Service::where('id', $id)->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => "Service Deleted Successfully",
+        ], 200);
     }
 }

@@ -9,6 +9,7 @@
             <div class="modal-body">
                 <form id="update-form">
                     @csrf
+                    @method('POST') 
                     <input type="text" name="updateId" id="updateId">
                     <div class="row mb-3">
                         <label for="example-text-input" class="col-sm-2 col-form-label"> Title
@@ -21,14 +22,17 @@
 
                     <div class="row mb-3">
                         <label for="example-text-input" class="col-sm-2 col-form-label"> ServiceList
+                            <button type="button" name="add" id="updateAdd" class="btn btn-primary">Add
+                                More</button>
                         </label>
                         <div class="form-group col-sm-10">
                             <table class="table table-bordered table-hover" id="dynamic_fieldUpdate">
                                 <tr>
                                     <td><input type="text" name="updateservice_list[]" id="updateservice_list"
-                                            placeholder="Enter your Feature" class="form-control updateservice_list" /></td>
-                                    <td><button type="button" name="add" id="updateAdd" class="btn btn-primary">Add
-                                            More</button></td>
+                                            placeholder="Enter your Feature" class="form-control updateservice_list" />
+                                        
+                                    </td>
+                                    <td></td>
                                 </tr>
                             </table>
                         </div>
@@ -56,13 +60,15 @@
      //var addamount = 0;
     var addamount = 700;
 
-   $("#updateAdd").click(function(){
-      addamount += 700;
-      console.log('amount: ' + addamount);
+    $('#updateAdd').click(function () {
+        addamount += 700;
+        console.log('amount: ' + addamount);
         i++;
 
-       $('#dynamic_fieldUpdate').append('<tr id="row'+i+'"><td><input type="text" name="updateservice_list[]" placeholder="Enter your Feature" class="form-control updateservice_list" id="updateservice_list"/></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
-     });
+        $('#dynamic_fieldUpdate').append('<tr id="row' + i + '"><td><input type="text" name="updateservice_list[]" placeholder="Enter your Feature" class="form-control updateservice_list" id="updateservice_list"/></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+    });
+
+
  
    $(document).on('click', '.btn_remove', function(){  
      addamount -= 700;
@@ -78,70 +84,69 @@
 
 <script>
     async function FillUpUpdateForm(id) {
-        try {
-            let res = await axios.get(`/admin/services/${id}/edit`);
+    try {
+        let res = await axios.get(`/admin/services/${id}/edit`);
 
-            console.log(res.data['service_list']);
-            document.getElementById('updateId').value = res.data['id'];
-            document.getElementById('servicesTitleUpdate').value = res.data['title'];
-          
+        console.log(res.data['service_list']);
+        document.getElementById('updateId').value = res.data['id'];
+        document.getElementById('servicesTitleUpdate').value = res.data['title'];
 
+        // Clear the dynamic input fields
+        $('#dynamic_fieldUpdate').empty();
 
-// Clear the dynamic input fields
-$('#dynamic_field').empty();
+        // Parse the service_list string into an array
+        let serviceListArray = JSON.parse(res.data['service_list']);
 
-// Add the dynamic input fields from res.data
-if (Array.isArray(res.data['service_list'])) {
-    res.data['service_list'].forEach(function (service, index) {
-        // Add a new row with the service in the dynamic input field
-        $('#dynamic_field').append(
-            '<tr id="row' + index + '"><td><input type="text" name="service_list[]" placeholder="Enter your Feature" class="form-control service_list" id="service_list" value="' + service + '"/></td><td><button type="button" name="remove" id="' + index + '" class="btn btn-danger btn_remove">X</button></td></tr>'
-        );
-    });
+        // Add the dynamic input fields from the array
+        serviceListArray.forEach(function (service, index) {
+            $('#dynamic_fieldUpdate').append(
+                '<tr id="row' + index + '"><td><input type="text" name="updateservice_list[]" placeholder="Enter your Feature" class="form-control updateservice_list" id="updateservice_list" value="' + service + '"/></td><td><button type="button" name="remove" id="' + index + '" class="btn btn-danger btn_remove">X</button></td></tr>'
+            );
+        });
+
+    } catch (error) {
+        console.error("Error filling up the update form:", error);
+    }
 }
+async function Update() {
+    try {
+        // Get the form data using FormData
+        var formData = new FormData(document.getElementById('update-form'));
 
+        // Assuming you have a valid CSRF token in your HTML
 
-        } catch (error) {
-            console.error("Error filling up the update form:", error);
-        }
-}
+        const config = {
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'multipart/form-data',
+            },
+        };
 
-    async function Update() {
-        try {
-            let updateID = document.getElementById('updateId').value;
-            let title = document.getElementById('servicesTitleUpdate').value;
-            let rate = document.getElementById('updateRate').value;
-       
+        // Use the axios library to send a POST request to the update route
+        const res = await axios.post('/admin/services/update', formData, config);
 
-            // document.getElementById('update-modal-close').click();
+        if (res.status === 200) {
+            // Assuming you want to reset the form and refresh the data list on success
 
+              document.getElementById("update-form").reset();
 
+               // Close the modal
             let closeButton = document.getElementById('update-modal-close');
             if (closeButton) {
-            closeButton.click();
+                closeButton.click();
             }
-                const updatedData = {
-                    title: title,
-                    rate: rate,
-                };
-                const res = await axios.put(`/admin/services/${updateID}`, updatedData, {
-                        headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                });
-
-                    if (res.status === 200) {
-                        document.getElementById("update-form").reset();
-                        toastr.success(res.data.message, 'Success');
-                        await getList();
-                    } else {
-                        errorToast("Something Went Wrong");
-                    }
-        } catch (error) {
-
-                    console.error("Error updating the category:", error);
+            
+            toastr.success(res.data.message, 'Success');
+           
+            await getList();
+        } else {
+            toastr.error("Something Went Wrong");
         }
+    } catch (error) {
+        toastr.error("Catch Something Went Wrong", error);
+    }
 }
+
 
 
 </script>
