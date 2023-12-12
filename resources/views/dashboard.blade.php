@@ -66,8 +66,7 @@
     <script src="{{ asset('frontend/assets/js/plugins/jquery.theia.sticky.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/plugins/jquery.elevatezoom.js') }}"></script>
     <!-- Template  JS -->
-    <script src="{{ asset('frontend/assets/js/main.js?v=5.3') }}"></script>
-    <script src="{{ asset('frontend/assets/js/shop.js?v=5.3') }}"></script>
+
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
