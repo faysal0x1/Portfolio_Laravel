@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form id="update-form">
                     @csrf
-                    @method('POST') 
+                    @method('POST')
                     <input type="text" name="updateId" id="updateId">
                     <div class="row mb-3">
                         <label for="example-text-input" class="col-sm-2 col-form-label"> Title
@@ -30,7 +30,7 @@
                                 <tr>
                                     <td><input type="text" name="updateservice_list[]" id="updateservice_list"
                                             placeholder="Enter your Feature" class="form-control updateservice_list" />
-                                        
+
                                     </td>
                                     <td></td>
                                 </tr>
@@ -57,9 +57,7 @@
    
    var i = 1;
      var length;
-     //var addamount = 0;
     var addamount = 700;
-
     $('#updateAdd').click(function () {
         addamount += 700;
         console.log('amount: ' + addamount);
@@ -69,7 +67,6 @@
     });
 
 
- 
    $(document).on('click', '.btn_remove', function(){  
      addamount -= 700;
      console.log('amount: ' + addamount); 
@@ -135,7 +132,7 @@ async function Update() {
             if (closeButton) {
                 closeButton.click();
             }
-            
+
             toastr.success(res.data.message, 'Success');
            
             await getList();

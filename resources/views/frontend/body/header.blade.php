@@ -5,15 +5,16 @@
             <div class="row justify-content-between align-items-center">
                 <div class="col">
                     <!-- Start Header Logo -->
-                    <a href="index.html" class="header-logo">
-                        <img src="{{ asset('frontend/assets/images/logo/logo.png') }}" alt="">
+                    {{-- <img src="{{ asset('frontend/assets/images/logo/logo.png') }}" alt=""> --}}
+                    <a href="{{ url('/') }}" class="header-logo d-flex">
+                       <h1 class="flex"> Faysal</h1>
                     </a>
                     <!-- End Header Logo -->
                 </div>
                 <div class="col-auto">
                     <!-- Start Header Menu -->
                     <ul class="header-nav">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{{ url('/') }}">Home</a></li>
                         <li class="has-dropdown">
                             <a href="service-list.html">Service</a>
                             <ul class="submenu">

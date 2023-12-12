@@ -2,18 +2,44 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\backend\AboutController;
+use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\backend\ProjectController;
 use App\Http\Controllers\backend\ServiceController;
 use App\Http\Controllers\backend\SkillController;
 use App\Http\Controllers\backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\EducationController;
+use App\Http\Controllers\FrontEnd\FrontendController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Middleware\Role;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
     return view('frontend.index');
 });
+
+
+
+Route::controller(FrontendController::class)->prefix('web')->group(function () {
+
+    Route::get('/get/hero', 'getHeroData')
+        ->name('get.hero');
+    Route::get('/get/services', 'getServices')
+        ->name('get.services');
+    Route::get('/get/skills', 'getSkills')
+        ->name('get.skills');
+
+    Route::get('/blogs', 'blogsPage')
+        ->name('blogs.page');
+
+    Route::get('/blog/{id}', 'blogDetails')
+        ->name('blog.single');
+});
+
+
+
+
 
 Route::get('/dashboard', function () {
     return view('admin.index2');
@@ -87,17 +113,17 @@ Route::middleware(['auth', 'role:user'])->prefix('admin')->group(function () {
 
 
     // ALl BlogCategoryController Routes
-    // Route::controller(BlogCategoryController::class)->group(function () {
-    //     Route::get('/all/blog/category', 'blogCategory')->name('all.blog.category');
+    Route::controller(BlogCategoryController::class)->group(function () {
+        Route::get('/all/blog/category', 'blogCategory')->name('all.blog.category');
 
-    //     Route::get('/add/blog/category', 'addBlogCategory')->name('add.blog.category');
+        Route::get('/add/blog/category', 'addBlogCategory')->name('add.blog.category');
 
-    //     Route::post('/store/blog/category', 'storeBlogCategory')->name('store.blog.category');
+        Route::post('/store/blog/category', 'storeBlogCategory')->name('store.blog.category');
 
-    //     Route::get('/edit/blog/category/{id}', 'editBlogCategory')->name('edit.blog.category');
-    //     Route::post('/update/blog/category', 'updateBlogCategory')->name('update.blog.category');
-    //     Route::get('/delete/blog/category/{id}', 'deleteBlogCategory')->name('delete.blog.category');
-    // });
+        Route::get('/edit/blog/category/{id}', 'editBlogCategory')->name('edit.blog.category');
+        Route::post('/update/blog/category', 'updateBlogCategory')->name('update.blog.category');
+        Route::get('/delete/blog/category/{id}', 'deleteBlogCategory')->name('delete.blog.category');
+    });
 
 
     // All Blog Controller
@@ -112,9 +138,14 @@ Route::middleware(['auth', 'role:user'])->prefix('admin')->group(function () {
 
         Route::get('/blog/details/{id}', 'blogDetails')->name('blog.details');
     });
+
+    Route::resource('/education', EducationController::class);
+
+    Route::get('/get/education', [EducationController::class, 'getEducation'])
+        ->name('get.education');
 });
 
-
+Route::get('/get/blogs', [FrontendController::class, 'getBlogs']);
 Route::post('/admin/newsletter/store', [NewsletterController::class, 'newsletterStore'])->name('store.newsletter');
 
 // Product Controller

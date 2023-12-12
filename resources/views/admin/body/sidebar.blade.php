@@ -26,7 +26,7 @@
                 <div class="menu-title">Single Page</div>
             </a>
             <ul>
-             
+
                 <li> <a href="{{ route('about.index') }}"><i class="bx bx-right-arrow-alt"></i>About Details</a>
                 </li>
                 <li> <a href="{{ route('skills.index') }}"><i class="bx bx-right-arrow-alt"></i>Skills</a>
@@ -38,14 +38,18 @@
                 <li> <a href="{{ route('projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects</a>
                 </li>
                 <li> <a href="{{ route('newsletter.index') }}"><i class="bx bx-right-arrow-alt"></i>Newsletter</a>
+                <li> <a href="{{ route('all.blog.category') }}"><i class="bx bx-right-arrow-alt"></i>Blog Category</a>
+                </li>
                 <li> <a href="{{ route('all.blog') }}"><i class="bx bx-right-arrow-alt"></i>Blogs</a>
+                </li>
+                <li> <a href="{{ route('education.index') }}"><i class="bx bx-right-arrow-alt"></i>Education</a>
                 </li>
             </ul>
         </li>
 
-        
-       
-     
+
+
+
     </ul>
     <!--end navigation-->
 </div>

@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="d-flex">
-                        <input class="btn btn-primary" onclick="addSkill(event)" type="submit" name="submit"
+                        <input class="btn btn-primary"  type="submit" name="submit"
                             value="submit" class="form-control">
                     </div>
                 </form>
