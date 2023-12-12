@@ -31,8 +31,11 @@
     <!-- Minify Version -->
     {{-- <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css"> --}}
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/vendor.min.css') }}">
+
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/plugins/plugins.min.css') }}">
+    
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
